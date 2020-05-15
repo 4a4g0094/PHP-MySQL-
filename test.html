@@ -3,13 +3,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="application/json;charset=UTF-8"/>
     <!-- jQuery -->
-    <script type="text/javascript" src="http://code.changer.hk/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
      <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style type="text/css">
         .table{
             width: 100%;
             text-align: center;
+        }
+        td{
+            font-size: 30px;
         }
     </style>
     <title>留言板</title>
@@ -20,32 +23,37 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
+                    
                     <td>內容</td>
+                    
                 </tr>
             </thead>
             <tbody id="tbody"></tbody>
         </table>
     </div>
-    <script type="text/javascript">
 
-    $.ajax({
-    type: 'GET',
-    url: 'test.php',
-    success: function (data) {
-        //console.log(data);
-        var a = data.split(';'); //用;分割資料
-        //console.log(a);
-        var trStr = ';';//動態拼接table
-        for (var i = 0; i < a.length-1; i++)  
-        {
-            var b = JSON.stringify(a[i]); //將陣列a改成字串
-            trStr += '<tr class="example">';
-                var obj = trStr += '<td width="100%">' + JSON.parse(b,[i])+'</td>';
-                var obj = trStr += '</tr>';  
-                
-        } 
-        $("#tbody").html(obj);
-    }
+<script type="text/javascript">
+
+  $.ajax({
+  type: 'GET',
+  url: 'test.php',
+  success: function (data) {
+      //console.log(data);
+      var a = data.split(';'); //用;分割資料
+      //console.log(a);
+      var trStr = ' ';//動態拼接table
+      for (var i = 0; i < a.length-1; i++)  
+      {
+          var b = JSON.stringify(a[i]); //將陣列a改成字串
+          trStr += '<tr class="example">';
+              var obj = trStr += '<td width="100%">' + JSON.parse(b,[i])+'</td>';
+              var obj = trStr += '</tr>';  
+                  obj= obj.replace(/\"/g, "") //削掉雙引號
+                  obj= obj.replace(/,/g, ""); //削掉豆號
+                  obj= obj.replace(/\[|]/g,'');//削掉中括號
+      } 
+      $("#tbody").html(obj);
+  }
 });
 </script>
 </body>
